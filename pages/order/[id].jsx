@@ -69,6 +69,7 @@ const OrderScreen = ({ params }) => {
         }
 
         setOrder(data);
+        console.log(data);
       } catch (error) {
         enqueueSnackbar(getError(error), { variant: "error" });
       }
