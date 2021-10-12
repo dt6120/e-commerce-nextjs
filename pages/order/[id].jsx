@@ -30,7 +30,7 @@ import getError from "../../utils/error";
 const OrderScreen = ({ params }) => {
   const classes = useStyles();
 
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const {
     state: { userInfo },
@@ -75,6 +75,8 @@ const OrderScreen = ({ params }) => {
     };
 
     fetchOrder();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

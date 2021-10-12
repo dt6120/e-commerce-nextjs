@@ -49,6 +49,8 @@ const Shipping = () => {
       enqueueSnackbar("No items in cart", { variant: "error" });
       router.push("/");
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleUseSavedAddress = () => {

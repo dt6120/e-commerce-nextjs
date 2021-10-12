@@ -8,7 +8,6 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Button,
   Card,
   List,
   ListItem,
@@ -31,7 +30,7 @@ import getError from "../../utils/error";
 const PlaceOrder = () => {
   const classes = useStyles();
 
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
   const { state, dispatch } = useContext(Store);
@@ -83,6 +82,8 @@ const PlaceOrder = () => {
     };
 
     loadPaypalScript();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const createOrder = async (data, actions) => {
@@ -93,8 +94,8 @@ const PlaceOrder = () => {
     return paypalOrderId;
   };
 
-  const onApprove = async (data, actions) => {
-    const details = await actions.order.capture();
+  const onApprove = async () => {
+    // const details = await actions.order.capture();
     try {
       const { data } = await axios.post(
         `/api/orders/pay`,
@@ -125,36 +126,6 @@ const PlaceOrder = () => {
 
   const onError = async (error) => {
     enqueueSnackbar(getError(error), { variant: "error" });
-  };
-
-  const handlePlaceOrder = async () => {
-    closeSnackbar();
-
-    try {
-      const { data } = await axios.post(
-        "/api/orders",
-        {
-          orderItems: cartItems,
-          shippingAddress,
-          paymentMethod,
-          itemsPrice,
-          shippingPrice,
-          taxPrice,
-          totalPrice,
-        },
-        {
-          headers: {
-            authorization: `Bearer ${userInfo.token}`,
-          },
-        }
-      );
-
-      dispatch({ type: "CLEAR_CART" });
-      enqueueSnackbar("Order placed successfully", { variant: "success" });
-      router.push(`/order/${data._id}`);
-    } catch (error) {
-      enqueueSnackbar(getError(error), { variant: "error" });
-    }
   };
 
   return (

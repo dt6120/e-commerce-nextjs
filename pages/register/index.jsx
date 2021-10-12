@@ -39,6 +39,8 @@ const Register = () => {
     if (userInfo) {
       router.push("/");
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const submitHandler = async ({ name, email, password, confirmPassword }) => {
