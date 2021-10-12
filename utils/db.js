@@ -30,13 +30,13 @@ const connect = async () => {
 
 const disconnect = async () => {
   if (connection.isConnected) {
-    if (process.env.NODE_ENV === "production") {
-      await mongoose.disconnect();
-      connection.isConnected = false;
-      console.log(`Disconnected`);
-    } else {
-      console.log(`Not disconnected`);
-    }
+    // if (process.env.NODE_ENV === "production") {
+    await mongoose.disconnect();
+    connection.isConnected = false;
+    console.log(`Disconnected`);
+    // } else {
+    //   console.log(`Not disconnected`);
+    // }
   } else {
     console.log(`Already disconnected`);
     return;

@@ -82,6 +82,8 @@ const reducer = (state, action) => {
     case "USER_LOGOUT": {
       Cookies.remove("userInfo");
       Cookies.remove("cartItems");
+      Cookies.remove("shippingAddress");
+      Cookies.remove("paymentMethod");
       return {
         ...state,
         cart: { cartItems: [], shippingAddress: {}, paymentMethod: "" },
