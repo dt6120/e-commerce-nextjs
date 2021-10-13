@@ -16,6 +16,7 @@ import Layout from "../components/Layout";
 import Product from "../models/Product";
 import db from "../utils/db";
 import { Store } from "../utils/Store";
+// import getError from "../utils/error";
 
 const Home = ({ products }) => {
   const { dispatch, state } = useContext(Store);
@@ -28,21 +29,25 @@ const Home = ({ products }) => {
   const handleAddToCart = async (product) => {
     closeSnackbar();
 
-    const existItem = cartItems.find((item) => item._id === product._id);
-    const quantity = existItem ? existItem.quantity + 1 : 1;
+    try {
+      const existItem = cartItems.find((item) => item._id === product._id);
+      const quantity = existItem ? existItem.quantity + 1 : 1;
 
-    const { data } = await axios.get(`/api/products/${product._id}`);
-    if (quantity > data.countInStock) {
-      enqueueSnackbar("Sorry, product is out of stock", { variant: "error" });
-      return;
+      const { data } = await axios.get(`/api/products/${product._id}`);
+      if (quantity > data.countInStock) {
+        enqueueSnackbar("Sorry, product is out of stock", { variant: "error" });
+        return;
+      }
+
+      dispatch({
+        type: "ADD_CART_ITEM",
+        payload: { ...product, quantity },
+      });
+
+      enqueueSnackbar("Product added to cart", { variant: "success" });
+    } catch (error) {
+      enqueueSnackbar("Unable to add to cart, try again", { variant: "error" });
     }
-
-    dispatch({
-      type: "ADD_CART_ITEM",
-      payload: { ...product, quantity },
-    });
-
-    enqueueSnackbar("Product added to cart", { variant: "success" });
   };
 
   return (
@@ -61,6 +66,7 @@ const Home = ({ products }) => {
                           component="img"
                           image={product.image}
                           title={product.name}
+                          layout="responsive"
                         />
                         <CardContent>
                           <Typography>{product.name}</Typography>

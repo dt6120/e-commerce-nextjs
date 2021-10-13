@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import axios from "axios";
 import NextLink from "next/link";
-import Image from "next/image";
+// import Image from "next/image";
 import Layout from "../../components/Layout";
 import {
   Grid,
@@ -10,6 +10,7 @@ import {
   ListItem,
   Typography,
   Card,
+  CardMedia,
   Button,
 } from "@material-ui/core";
 import { Store } from "../../utils/Store";
@@ -63,13 +64,14 @@ const ProductScreen = ({ product }) => {
       </div>
       <Grid container spacing={1}>
         <Grid item md={6} xs={12}>
-          <Image
-            src={product.image}
-            alt={product.name}
-            width={640}
-            height={640}
-            layout="responsive"
-          />
+          <Card>
+            <CardMedia
+              component="img"
+              image={product.image}
+              title={product.name}
+              height={640}
+            />
+          </Card>
         </Grid>
         <Grid item md={3} xs={12}>
           <List>
